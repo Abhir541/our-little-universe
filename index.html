@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Universe ✨</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ min-height:100vh;overflow:hidden;font-family:Arial,sans-serif;
+ background:radial-gradient(circle at center,#24104f,#09051b 70%);
+ color:white;text-align:center
+}
+.stars{
+ position:fixed;inset:0;
+ background-image:radial-gradient(white 1px,transparent 1px),radial-gradient(white 1px,transparent 1px);
+ background-size:70px 70px,110px 110px;
+ background-position:10px 20px,40px 70px;opacity:.55;
+ animation:moveStars 15s linear infinite
+}
+@keyframes moveStars{from{transform:translateY(0)}to{transform:translateY(70px)}}
+.container{
+ position:relative;z-index:2;min-height:100vh;display:flex;
+ flex-direction:column;justify-content:center;align-items:center;padding:25px
+}
+h1{font-size:30px;margin-bottom:12px}
+.subtitle{color:#ddd;margin-bottom:35px}
+.planet{
+ width:170px;height:170px;border-radius:50%;
+ background:radial-gradient(circle at 30% 25%,#ffd6ff,#c86cff 30%,#5425a8 70%,#211044);
+ box-shadow:0 0 35px #b45cff,0 0 80px rgba(180,92,255,.35);
+ display:flex;justify-content:center;align-items:center;font-size:55px;
+ cursor:pointer;animation:float 3s ease-in-out infinite;transition:.3s
+}
+.planet:active{transform:scale(.92)}
+@keyframes float{50%{transform:translateY(-12px)}}
+.hint{margin-top:25px;color:#e5cfff}
+.card{
+ display:none;width:min(90%,380px);padding:25px;border-radius:22px;
+ background:rgba(255,255,255,.10);backdrop-filter:blur(12px);
+ border:1px solid rgba(255,255,255,.2);box-shadow:0 0 30px rgba(180,92,255,.2)
+}
+.card h2{margin-bottom:15px}
+.card p{line-height:1.6;color:#eee}
+button{
+ margin-top:20px;border:none;padding:12px 22px;border-radius:25px;
+ background:#ff72c8;color:white;font-size:15px;cursor:pointer
+}
+.heart{
+ position:fixed;bottom:-20px;font-size:20px;
+ animation:heartUp 5s linear forwards;z-index:5
+}
+@keyframes heartUp{
+ to{transform:translateY(-110vh) rotate(25deg);opacity:0}
+}
+.final{font-size:25px;line-height:1.5}
+.small{font-size:14px;color:#d8c8ff;margin-top:15px}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="container">
+ <div id="intro">
+  <h1>Hey, You ✨</h1>
+  <p class="subtitle">I made a tiny universe for you...</p>
+  <div class="planet" onclick="openMemory()">🌙</div>
+  <p class="hint">Tap the moon 🌙</p>
+ </div>
+ <div class="card" id="card">
+  <h2 id="title">✨ Memory 1</h2>
+  <p id="message">Some people become a beautiful part of our story without even realizing it. ❤️</p>
+  <button onclick="nextMemory()">Next ✨</button>
+ </div>
+</div>
+<script>
+let step=0;
+const memories=[
+ {title:"✨ Memory 1",text:"Somehow, among so many people, I found someone who became really special to me. ❤️"},
+ {title:"🌙 Memory 2",text:"The little conversations, silly moments and random talks... somehow they became my favourite memories."},
+ {title:"⭐ Memory 3",text:"You don't need to do anything special. Just being yourself is already enough to make my day better."},
+ {title:"💌 A Little Secret",text:"If this little universe could have one permanent star, I would choose you. ✨"},
+ {title:"❤️ One Last Thing",text:"No matter how busy life gets, I hope we always keep a little space for our smiles, memories and silly moments."}
+];
+function openMemory(){
+ document.getElementById("intro").style.display="none";
+ document.getElementById("card").style.display="block";
+ createHearts();
+}
+function nextMemory(){
+ step++;
+ if(step>=memories.length){
+  document.getElementById("card").innerHTML=
+  `<div class="final">🌌❤️<br><br>You reached the end...
+  <br><br>But maybe this isn't the end of our story.
+  <br><br><b>You're my favourite little universe. ✨</b>
+  <div class="small">Made with a little bit of code & a lot of feelings.</div></div>`;
+  createHearts();return;
+ }
+ document.getElementById("title").innerText=memories[step].title;
+ document.getElementById("message").innerText=memories[step].text;
+ createHearts();
+}
+function createHearts(){
+ for(let i=0;i<8;i++){
+  const heart=document.createElement("div");heart.className="heart";
+  heart.innerHTML=["❤️","💗","💖","✨","💕"][Math.floor(Math.random()*5)];
+  heart.style.left=Math.random()*100+"%";
+  heart.style.animationDuration=(3+Math.random()*3)+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+ }
+}
+</script>
+</body>
+</html>
